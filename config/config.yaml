@@ -178,6 +178,7 @@ filter:
   method: "keyword"                     # 筛选方式（二选一）
                                        # keyword = 关键词匹配，不调用 AI，不消耗 token，但规则固定
                                        #           词组定义在 config/frequency_words.txt
+                                       #           当前主题：国家发展政策 / AI 发展 / 宏观经济 / 内容平台 / AIGC 创作
                                        # ai = AI 智能分类，更灵活但每次运行消耗 token
                                        #      兴趣描述在 config/ai_interests.txt，需配合下方 ai_filter
 
