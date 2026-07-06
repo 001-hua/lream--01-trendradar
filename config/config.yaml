@@ -266,7 +266,7 @@ notification:
   # 推送渠道配置
   channels:
     feishu:
-      webhook_url: ""                 # 飞书机器人 webhook URL
+      webhook_url: ""                 # 飞书机器人 webhook URL；GitHub Actions 请使用 Secret: FEISHU_WEBHOOK_URL
 
     dingtalk:
       webhook_url: ""                 # 钉钉机器人 webhook URL

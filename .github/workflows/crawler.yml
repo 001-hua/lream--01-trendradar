@@ -1,4 +1,4 @@
-name: Get Hot News
+name: TrendRadar Crawler
 
 on:
   schedule:
@@ -35,7 +35,9 @@ on:
     #   "15 * * * *"     → 每小时第15分钟 / minute 15 every hour
     #   "30 0-14 * * *"  → 北京时间 8:00-22:00 每小时第30分钟 / Beijing 8am-10pm
     #
-    - cron: "33 * * * *"
+    # GitHub cron uses UTC. These run at 08:00 and 20:00 Asia/Shanghai.
+    - cron: "0 0 * * *"
+    - cron: "0 12 * * *"
 
   workflow_dispatch:
 
@@ -45,12 +47,11 @@ concurrency:
 
 permissions:
   contents: read
-  actions: write
 
 jobs:
   crawl:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -60,6 +61,7 @@ jobs:
           clean: true
 
       - name: Check Expiration
+        if: ${{ false }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -132,6 +134,18 @@ jobs:
             echo "Error: Config missing"
             exit 1
           fi
+
+      - name: Validate Feishu secret
+        if: success()
+        env:
+          FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
+        run: |
+          if [ -z "$FEISHU_WEBHOOK_URL" ]; then
+            echo "Error: FEISHU_WEBHOOK_URL is not configured."
+            echo "Add it in GitHub: Settings -> Secrets and variables -> Actions -> New repository secret."
+            exit 1
+          fi
+          echo "FEISHU_WEBHOOK_URL is configured. The full webhook will not be printed."
 
       - name: Run crawler
         if: success()
