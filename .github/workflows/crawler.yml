@@ -1,4 +1,4 @@
-name: TrendRadar Crawler
+﻿name: TrendRadar Crawler
 
 on:
   workflow_dispatch:
@@ -53,7 +53,8 @@ jobs:
             echo "Add it in GitHub: Settings -> Secrets and variables -> Actions -> New repository secret."
             exit 1
           fi
-          echo "FEISHU_WEBHOOK_URL is configured. The full webhook will not be printed."
+          echo "FEISHU_WEBHOOK_URL is configured."
+          echo "The full webhook will not be printed."
 
       - name: Run crawler
         env:
